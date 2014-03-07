@@ -1,6 +1,8 @@
 #ifndef _INSTITUTION_H__
 #define _INSTITUTION_H__
 
+extern Stack stack;
+
 typedef enum {Unknown, University, UniversityCollege, College} InstitutionType;
 
 typedef struct Institution_t {
@@ -12,4 +14,8 @@ typedef struct Institution_t {
 	int yearEstablished;
 } Institution;
 
+int Institution_select(LinkedList *inputList, 
+					   LinkedList *outputList,
+					   void *criterion,
+					   int (*compare)(void *, void*));
 #endif //_INSTITUTION_H__
