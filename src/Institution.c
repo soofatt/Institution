@@ -63,16 +63,16 @@ int wasEstablishedBefore(void *elem1, void *year){
 	int *yearOfEstablishment = (int *)year;
 	
 	if(selectedInstitution->yearEstablished > 2014){
-		printf("I threw an exception : %d\n", selectedInstitution->yearEstablished);
+		//printf("I threw an exception : %d\n", selectedInstitution->yearEstablished);
 		Throw(ERR_YEAR_GREATER_THAN_2014);
 	}
 	else{
 		if(selectedInstitution->yearEstablished < *yearOfEstablishment){
-			printf("I performed a check : %d\n", selectedInstitution->yearEstablished);
+			//printf("I performed a check : %d\n", selectedInstitution->yearEstablished);
 			return 1;
 		}
 		else{
-			printf("I performed a check : %d\n", selectedInstitution->yearEstablished);
+			//printf("I performed a check : %d\n", selectedInstitution->yearEstablished);
 			return 0;
 		}
 	}

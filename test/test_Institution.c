@@ -95,10 +95,6 @@ void test_isUniversityCollege_should_return_1_if_type_is_same_and_return_0_if_ot
 									   
 	InstitutionType *institutionType = (InstitutionType *)UniversityCollege;
 	
-	LinkedList inList = {.head = &institutionArray[0], 
-						 .tail = &institutionArray[1]};
-	LinkedList outList;
-	
 	//printf("institutionArray[1].type = %d\n", institutionArray[1].type);
 	//printf("instType = %d\n", institutionType);
 	
@@ -120,6 +116,7 @@ void test_Institution_select_should_select_1_institution_from_3_institution(){
 						 .tail = &institutionArray[2]};
 	LinkedList outList;
 	
+	//Should select institutionArray[1] to be selected
 	List_removeHead_ExpectAndReturn(&inList, &institutionArray[0]);
 	List_removeHead_ExpectAndReturn(&inList, &institutionArray[1]);
 	Stack_push_Expect(&stack, &institutionArray[1]);
@@ -149,6 +146,7 @@ void test_Institution_select_should_select_2_institution_from_5_institution(){
 						 .tail = &institutionArray[4]};
 	LinkedList outList;
 	
+	//Should select institutionArray[1] and institutionArray[3] to be selected
 	List_removeHead_ExpectAndReturn(&inList, &institutionArray[0]);
 	List_removeHead_ExpectAndReturn(&inList, &institutionArray[1]);
 	Stack_push_Expect(&stack, &institutionArray[1]);
@@ -172,17 +170,29 @@ void test_Institution_select_should_select_2_institution_from_5_institution(){
 void test_wasEstablishedBefore_should_return_1_if_institution_is_established_before_1980(){
 	//Test fixture
 	int exception;
-	Institution institutionArray[3] = {{.yearEstablished = 1550},
-									   {.yearEstablished = 1980},
-									   {.yearEstablished = 2020}};
+	Institution institutionArray[2] = {{.yearEstablished = 1550},
+									   {.yearEstablished = 1995}};
 									   
 	int *yearCriterion = (int *)1980;
 	
-	LinkedList inList = {.head = &institutionArray[0], 
-						 .tail = &institutionArray[2]};
-	LinkedList outList;
+	//Call SUT
+	//Return 1 if <1980, return 0 if >1980
+	TEST_ASSERT_EQUAL(1, wasEstablishedBefore(&institutionArray[0], &yearCriterion));
+	TEST_ASSERT_EQUAL(0, wasEstablishedBefore(&institutionArray[1], &yearCriterion));
+	
+}
+
+void test_wasEstablishedBefore_should_return_throw_exception_if_year_is_more_than_2014(){
+	//Test fixture
+	int exception;
+	Institution institutionArray[3] = {{.yearEstablished = 1550},
+									   {.yearEstablished = 2035},
+									   {.yearEstablished = 1980}};
+									   
+	int *yearCriterion = (int *)1980;
 	
 	//Call SUT
+	//Should stop at institutionArray[1] due to exception
 	Try{
 		TEST_ASSERT_EQUAL(1, wasEstablishedBefore(&institutionArray[0], &yearCriterion));
 		TEST_ASSERT_EQUAL(0, wasEstablishedBefore(&institutionArray[1], &yearCriterion));
@@ -208,6 +218,7 @@ void test_Institution_select_should_select_2_institutions_from_4_institutions(){
 						 .tail = &institutionArray[3]};
 	LinkedList outList;
 	
+	//Should expect institutionArray[0] and institutionArray[2] to be selected
 	List_removeHead_ExpectAndReturn(&inList, &institutionArray[0]);
 	Stack_push_Expect(&stack, &institutionArray[0]);
 	List_removeHead_ExpectAndReturn(&inList, &institutionArray[1]);
@@ -245,6 +256,7 @@ void test_Institution_select_should_stop_if_exception_is_caught(){
 						 .tail = &institutionArray[3]};
 	LinkedList outList;
 	
+	//Should stop at institutionArray[1] due to exception
 	List_removeHead_ExpectAndReturn(&inList, &institutionArray[0]);
 	Stack_push_Expect(&stack, &institutionArray[0]);
 	List_removeHead_ExpectAndReturn(&inList, &institutionArray[1]);
