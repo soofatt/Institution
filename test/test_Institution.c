@@ -72,7 +72,7 @@ void test_Institution_reverse_should_reverse_linked_list_testing_with_4_element(
 	List_removeHead_ExpectAndReturn(&inList, &institutionArray[3]);
 	Stack_push_Expect(&stack, &institutionArray[3]);
 	
-	List_removeHead_ExpectAndReturn(&inList, NULL);
+	List_removeHead_ExpectAndReturn(&inList, NULL);//To end the loop
 	
 	Stack_pop_ExpectAndReturn(&stack, &institutionArray[0]);
 	List_addTail_Expect(&outList, &institutionArray[0]);
@@ -104,5 +104,32 @@ void test_isUniversityCollege_should_return_1_if_type_is_same_and_return_0_if_ot
 	//Call SUT
 	TEST_ASSERT_EQUAL(0, isUniversityCollege(&institutionArray[0], &institutionType));
 	TEST_ASSERT_EQUAL(1, isUniversityCollege(&institutionArray[1], &institutionType));
+	
+}
+
+void test_Institution_select_should_select_1_institution(){
+	//Test fixture
+	Institution institutionArray[3] = {{.type = University},
+									   {.type = UniversityCollege},
+									   {.type = College}};
+									   
+	InstitutionType *institutionType = (InstitutionType *)UniversityCollege;
+	
+	LinkedList inList = {.head = &institutionArray[0], 
+						 .tail = &institutionArray[2]};
+	LinkedList outList;
+	
+	List_removeHead_ExpectAndReturn(&inList, &institutionArray[0]);
+	List_removeHead_ExpectAndReturn(&inList, &institutionArray[1]);
+	Stack_push_Expect(&stack, &institutionArray[1]);
+	List_removeHead_ExpectAndReturn(&inList, &institutionArray[2]);
+	
+	List_removeHead_ExpectAndReturn(&inList, NULL);//To end the loop
+	
+	Stack_pop_ExpectAndReturn(&stack, &institutionArray[1]);
+	List_addTail_Expect(&outList, &institutionArray[1]);
+	
+	//Call SUT
+	TEST_ASSERT_EQUAL(1, Institution_select(&inList, &outList, &institutionType, isUniversityCollege));
 	
 }
