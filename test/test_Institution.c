@@ -1,4 +1,5 @@
 #include "unity.h"
+#include "CException.h"
 #include "mock_LinkedList.h"
 #include "mock_Stack.h"
 #include "Institution.h"
@@ -165,5 +166,30 @@ void test_Institution_select_should_select_2_institution_from_5_institution(){
 	
 	//Call SUT
 	TEST_ASSERT_EQUAL(2, Institution_select(&inList, &outList, &institutionType, isUniversityCollege));
+	
+}
+
+void test_wasEstablishedBefore_should_return_1_if_institution_is_established_before_1980(){
+	//Test fixture
+	int exception;
+	Institution institutionArray[3] = {{.yearEstablished = 1550},
+									   {.yearEstablished = 1980},
+									   {.yearEstablished = 2020}};
+									   
+	int *yearCriterion = (int *)1980;
+	
+	LinkedList inList = {.head = &institutionArray[0], 
+						 .tail = &institutionArray[2]};
+	LinkedList outList;
+	
+	//Call SUT
+	Try{
+		TEST_ASSERT_EQUAL(1, wasEstablishedBefore(&institutionArray[0], &yearCriterion));
+		TEST_ASSERT_EQUAL(0, wasEstablishedBefore(&institutionArray[1], &yearCriterion));
+		TEST_ASSERT_EQUAL(0, wasEstablishedBefore(&institutionArray[2], &yearCriterion));
+	} Catch(exception){
+		TEST_ASSERT_EQUAL(ERR_YEAR_GREATER_THAN_2014, exception);
+		return;
+	}
 	
 }

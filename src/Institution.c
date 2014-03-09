@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "CException.h"
 #include "LinkedList.h"
 #include "Stack.h"
 #include "Institution.h"
@@ -55,4 +56,24 @@ int isUniversityCollege(void *elem1, void *type){
 		return 1;
 	else
 		return 0;
+}
+
+int wasEstablishedBefore(void *elem1, void *year){
+	Institution *selectedInstitution = (Institution *)elem1;
+	int *yearOfEstablishment = (int *)year;
+	
+	if(selectedInstitution->yearEstablished > 2014){
+		//printf("I threw an exception : %d\n", selectedInstitution->yearEstablished);
+		Throw(ERR_YEAR_GREATER_THAN_2014);
+	}
+	else{
+		if(selectedInstitution->yearEstablished < *yearOfEstablishment){
+			//printf("I performed a check : %d\n", selectedInstitution->yearEstablished);
+			return 1;
+		}
+		else{
+			//printf("I performed a check : %d\n", selectedInstitution->yearEstablished);
+			return 0;
+		}
+	}
 }
