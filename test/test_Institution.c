@@ -86,3 +86,23 @@ void test_Institution_reverse_should_reverse_linked_list_testing_with_4_element(
 	//Call SUT
 	TEST_ASSERT_EQUAL(4, Institution_reverse(&inList, &outList));
 }
+
+void test_isUniversityCollege_should_return_1_if_type_is_same_and_return_0_if_otherwise(){
+	//Test fixture
+	Institution institutionArray[2] = {{.type = University},
+									   {.type = UniversityCollege}};
+									   
+	InstitutionType *institutionType = (InstitutionType *)UniversityCollege;
+	
+	LinkedList inList = {.head = &institutionArray[0], 
+						 .tail = &institutionArray[1]};
+	LinkedList outList;
+	
+	//printf("institutionArray[1].type = %d\n", institutionArray[1].type);
+	//printf("instType = %d\n", institutionType);
+	
+	//Call SUT
+	TEST_ASSERT_EQUAL(0, isUniversityCollege(&institutionArray[0], &institutionType));
+	TEST_ASSERT_EQUAL(1, isUniversityCollege(&institutionArray[1], &institutionType));
+	
+}

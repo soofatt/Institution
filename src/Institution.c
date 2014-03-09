@@ -23,3 +23,13 @@ int Institution_reverse(LinkedList *inputList, LinkedList *outputList){
 	
 	return counter;
 }
+
+int isUniversityCollege(void *elem1, void *type){
+	Institution *selectedInstitution = (Institution *)elem1;
+	InstitutionType *institutionType = (InstitutionType *)type;
+	
+	if(selectedInstitution->type == *institutionType)
+		return 1;
+	else
+		return 0;
+}
