@@ -193,3 +193,40 @@ void test_wasEstablishedBefore_should_return_1_if_institution_is_established_bef
 	}
 	
 }
+
+void test_Institution_select_should_select_2_institutions_from_4_institutions(){
+	//Test fixture
+	int exception;
+	Institution institutionArray[4] = {{.yearEstablished = 1432},
+									   {.yearEstablished = 1995},
+									   {.yearEstablished = 1785},
+									   {.yearEstablished = 2014}};
+									   
+	int *yearCriterion = (int *)1980;
+	
+	LinkedList inList = {.head = &institutionArray[0], 
+						 .tail = &institutionArray[3]};
+	LinkedList outList;
+	
+	List_removeHead_ExpectAndReturn(&inList, &institutionArray[0]);
+	Stack_push_Expect(&stack, &institutionArray[0]);
+	List_removeHead_ExpectAndReturn(&inList, &institutionArray[1]);
+	List_removeHead_ExpectAndReturn(&inList, &institutionArray[2]);
+	Stack_push_Expect(&stack, &institutionArray[2]);
+	List_removeHead_ExpectAndReturn(&inList, &institutionArray[3]);
+	
+	List_removeHead_ExpectAndReturn(&inList, NULL);//To end the loop
+	
+	Stack_pop_ExpectAndReturn(&stack, &institutionArray[0]);
+	List_addTail_Expect(&outList, &institutionArray[0]);
+	Stack_pop_ExpectAndReturn(&stack, &institutionArray[1]);
+	List_addTail_Expect(&outList, &institutionArray[1]);
+	
+	//Call SUT
+	Try{
+		TEST_ASSERT_EQUAL(2, Institution_select(&inList, &outList, &yearCriterion, wasEstablishedBefore));
+	} Catch(exception){
+		TEST_ASSERT_EQUAL(ERR_YEAR_GREATER_THAN_2014, exception);
+		return;
+	}
+}
