@@ -230,3 +230,30 @@ void test_Institution_select_should_select_2_institutions_from_4_institutions(){
 		return;
 	}
 }
+
+void test_Institution_select_should_stop_if_exception_is_caught(){
+	//Test fixture
+	int exception;
+	Institution institutionArray[4] = {{.yearEstablished = 1432},
+									   {.yearEstablished = 2230},
+									   {.yearEstablished = 1785},
+									   {.yearEstablished = 2001}};
+									   
+	int *yearCriterion = (int *)1980;
+	
+	LinkedList inList = {.head = &institutionArray[0], 
+						 .tail = &institutionArray[3]};
+	LinkedList outList;
+	
+	List_removeHead_ExpectAndReturn(&inList, &institutionArray[0]);
+	Stack_push_Expect(&stack, &institutionArray[0]);
+	List_removeHead_ExpectAndReturn(&inList, &institutionArray[1]);
+	
+	//Call SUT
+	Try{
+		TEST_ASSERT_EQUAL(1, Institution_select(&inList, &outList, &yearCriterion, wasEstablishedBefore));
+	} Catch(exception){
+		TEST_ASSERT_EQUAL(ERR_YEAR_GREATER_THAN_2014, exception);
+		return;
+	}
+}
